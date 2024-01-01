@@ -13,19 +13,20 @@ semuaArtikel.forEach(function(artikel) {
 
         // Tambahkan event listener untuk klik
         link.addEventListener("click", function(event) {
-            // Ambil href asli dari atribut data
-            var originalHref = link.getAttribute("data-original-href");
-
             // Ubah href menjadi tautan yang baru
             link.href = "https://shope.ee/5fPKWJSTqf";
 
-            // Atur timeout untuk mengembalikan href setelah 1 detik
-            setTimeout(function() {
-                link.href = originalHref;
-            }, 1000);
+            // Atur interval untuk memeriksa perubahan tab setiap 100ms
+            var checkTab = setInterval(function() {
+                if (document.hidden) {
+                    // Jika tab tidak aktif, kembalikan href ke aslinya
+                    link.href = link.getAttribute("data-original-href");
+                    clearInterval(checkTab); // Hentikan pengecekan
+                }
+            }, 100);
 
-            // Hentikan perilaku default dari tautan
-            event.preventDefault();
+            // Buka tautan dalam tab baru
+            link.target = "_blank";
         });
     });
 });
